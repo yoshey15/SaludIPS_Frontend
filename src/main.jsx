@@ -8,6 +8,8 @@ import MedicoDetalle from "./pages/MedicoDetalle.jsx";
 import Reserva from "./pages/Reserva.jsx";
 import Usuarios from "./pages/Usuarios.jsx";
 import "./styles.css";
+import './index.css';
+
 
 const router = createBrowserRouter([
   {

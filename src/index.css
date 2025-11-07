@@ -1,96 +1,142 @@
-/* ===== Tema oscuro con más color ===== */
+/* === Tema global: azul + morado, dark elegante === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 :root{
-  --bg:#0b1220;
-  --bg-2:#111a2b;
-  --text:#e6edf7;
-  --muted:#9fb3c8;
-
-  --primary:#3b82f6;   /* azul */
-  --primary-2:#22d3ee; /* cian */
-  --accent:#a78bfa;    /* violeta */
-  --success:#10b981;
+  --bg-1:#0b1020;
+  --bg-2:#0e152b;
+  --card:#121a34;
+  --muted:#9aa7bd;
+  --text:#e8eeff;
+  --accent:#5ee7ff;   /* azul cian */
+  --accent-2:#9f6cff; /* morado */
+  --accent-3:#22d3ee; /* azul claro */
+  --ok:#22c55e;
+  --warn:#f59e0b;
   --danger:#ef4444;
-
-  --card:#0f172a80;    /* glass */
-  --border:#1f2a44;
-  --shadow:0 10px 30px rgba(2,8,23,.35);
+  --radius:14px;
+  --shadow: 0 6px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-*{box-sizing:border-box}
-html,body,#root{height:100%}
-
+*{ box-sizing:border-box; }
+html, body, #root{ height:100%; }
 body{
   margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji','Segoe UI Emoji';
   color:var(--text);
   background:
-    radial-gradient(1200px 600px at 0% -10%, #1f2937 0%, transparent 60%),
-    radial-gradient(1000px 700px at 100% 0%, #0ea5e9 0%, transparent 40%),
-    linear-gradient(180deg, var(--bg) 0%, #0a0f1c 100%);
+    radial-gradient(1200px 600px at -10% -10%, rgba(159,108,255,.15), transparent 60%),
+    radial-gradient(1200px 600px at 110% 110%, rgba(94,231,255,.12), transparent 60%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
 }
 
-/* Topbar + tabs */
-header.topbar{
-  position:sticky; top:0; z-index:50;
-  backdrop-filter: blur(10px);
-  background: linear-gradient(90deg, rgba(59,130,246,.25), rgba(34,211,238,.25));
-  border-bottom:1px solid var(--border);
+/* Contenedor principal generado por Vite */
+#root{
+  max-width:1200px;
+  margin:0 auto;
+  padding:28px 22px 56px;
 }
-.nav{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;gap:10px;align-items:center}
-.brand{font-weight:800;letter-spacing:.2px;margin-right:auto}
-.tabs{display:flex;gap:8px}
-.tab, nav a{
-  appearance:none;border:1px solid transparent;
-  background: rgba(255,255,255,.06);
+
+/* Títulos */
+h1{
+  font-size:clamp(24px, 2.6vw, 34px);
+  font-weight:800;
+  letter-spacing:.3px;
+  margin:0 0 18px;
+  display:inline-block;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2) 60%, var(--accent-3));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+/* Nav (los botoncitos arriba) */
+nav, .nav, .tabs{
+  display:flex; gap:10px; flex-wrap:wrap;
+  margin: 8px 0 22px;
+}
+nav a, .nav a, .tabs a, nav button{
+  text-decoration:none;
   color:var(--text);
-  padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:600;
-  transition:all .18s ease;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);
+  padding:8px 14px;
+  border-radius:999px;
+  box-shadow: var(--shadow);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  cursor:pointer;
+  font-weight:600;
 }
-.tab:hover, nav a:hover{ transform:translateY(-1px); background:rgba(255,255,255,.1) }
-.tab.active, nav a.active{
-  background:linear-gradient(135deg, var(--primary), var(--accent));
-  border-color:transparent;
-  box-shadow:0 6px 20px rgba(59,130,246,.35);
+nav a:hover, .nav a:hover, nav button:hover{
+  transform: translateY(-1px);
+  border-color: rgba(94,231,255,.45);
 }
 
-/* Layout */
-main{max-width:1100px;margin:32px auto;padding:0 20px}
-.panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;padding:22px;
-  box-shadow:var(--shadow);
+/* “Tarjetas” (los paneles de cada página) */
+section, .card, .panel, .box{
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow: var(--shadow);
 }
-h1{font-size:28px;margin:0 0 16px}
-h2{font-size:22px;margin:0 0 12px}
-.small{color:var(--muted)}
 
-/* Tablas */
-table{width:100%;border-collapse:collapse;background:transparent}
-thead th{
-  text-align:left;font-weight:700;color:var(--muted);
-  padding:10px 12px;border-bottom:1px solid var(--border)
+/* Inputs */
+input, select{
+  width:100%;
+  background: rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:12px;
+  outline: none;
+  transition:border-color .15s ease, box-shadow .15s ease;
 }
-tbody td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05)}
-tbody tr:hover{background:rgba(255,255,255,.04)}
-
-/* Botones + inputs */
-button,.btn{
-  appearance:none;border:1px solid transparent;
-  background:linear-gradient(135deg, var(--primary), var(--primary-2));
-  color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;
-  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+input::placeholder{ color: rgba(232,238,255,.55); }
+input:focus{
+  border-color: rgba(94,231,255,.55);
+  box-shadow: 0 0 0 4px rgba(94,231,255,.15);
 }
-button.secondary{ background:rgba(255,255,255,.08);border:1px solid var(--border) }
-button.danger{ background:linear-gradient(135deg, var(--danger), #f59e0b) }
-button:hover{ transform:translateY(-1px); box-shadow:0 8px 25px rgba(34,211,238,.25) }
 
-input,select{
-  width:100%; background:#0b1220; color:var(--text);
-  border:1px solid var(--border); border-radius:10px; padding:10px 12px; outline:none;
+/* Botones */
+button, .btn{
+  background: radial-gradient(120% 120% at 0% 0%, var(--accent), var(--accent-2));
+  border: 1px solid rgba(255,255,255,.14);
+  color:#06111a;
+  font-weight:800;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  box-shadow: 0 10px 24px rgba(95, 180, 255, .20);
+  transition: transform .1s ease, filter .15s ease, box-shadow .15s ease;
 }
-input:focus,select:focus{ border-color:var(--primary); box-shadow:0 0 0 3px rgba(59,130,246,.25) }
+button:hover{ transform: translateY(-1px); filter:saturate(1.1); }
+button:active{ transform: translateY(0); }
 
-a.link{color:var(--primary-2);text-decoration:none}
-a.link:hover{text-decoration:underline}
-.alert{padding:10px 12px;border-left:3px solid var(--accent);background:rgba(167,139,250,.1);border-radius:10px}
+/* Tablas (Médicos/Usuarios) */
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 10px; /* filas flotantes */
+}
+th{
+  text-align:left; color:var(--muted); font-weight:700; font-size:14px;
+  padding:0 12px 8px;
+}
+td{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);
+  padding:12px;
+}
+td:first-child{ border-radius:12px 0 0 12px; }
+td:last-child{ border-radius:0 12px 12px 0; }
+
+/* Links de acciones */
+a{ color: var(--accent); }
+a:hover{ text-decoration: underline; }
+
+/* Helpers */
+.row{ display:flex; gap:12px; align-items:center; }
+.grid{ display:grid; gap:14px; }
+.grid-3{ grid-template-columns: repeat(3, 1fr); }
+.center{ display:flex; align-items:center; justify-content:center; }
+.muted{ color: var(--muted); }
