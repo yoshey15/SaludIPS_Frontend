@@ -1,23 +1,23 @@
 ﻿// src/clinicalApi.js
 
-// URL base de la API de doctores.
-// Si más adelante quieres inyectarla por .env, respeta VITE_DOCTORS_API.
-// Por ahora dejamos el host de tu Web App funcionando como respaldo.
-const API_DOCTORS =
-  import.meta?.env?.VITE_DOCTORS_API ||
+// Base de la API de doctores.
+// Puedes sobreescribir con VITE_DOCTORS_API en .env si lo necesitas.
+const API =
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_DOCTORS_API) ||
   "https://doctors-api-cloudac.azurewebsites.net";
 
-/** Lista de doctores desde la API */
-export async function medicos() {
-  const r = await fetch(`${API_DOCTORS}/doctors`, { headers: { "Accept": "application/json" } });
-  if (!r.ok) throw new Error(`Error ${r.status} al cargar doctores`);
-  return r.json();
+async function getJSON(path) {
+  const res = await fetch(`${API}${path}`, { headers: { Accept: "application/json" } });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} -> ${path}`);
+  return res.json();
 }
 
-/**
- * Genera disponibilidad simple para N días, entre horas [inicio, fin] cada 'intervaloMin' minutos.
- * Devuelve [{ fecha: 'YYYY-MM-DD', horas: ['08:00','08:30', ...] }, ...]
- */
+// === Endpoints reales de la API ===
+export const listarDoctores = () => getJSON("/doctors");
+export const health        = () => getJSON("/health");
+export const dbHealth      = () => getJSON("/db/health");
+
+// === Utilidad para slots de agenda (usada en MedicoDetalle) ===
 export function generarDisponibilidad({
   dias = 7,
   inicio = "08:00",
@@ -25,24 +25,18 @@ export function generarDisponibilidad({
   intervaloMin = 30,
 } = {}) {
   const pad = (n) => String(n).padStart(2, "0");
-
   const [hIni, mIni] = inicio.split(":").map(Number);
   const [hFin, mFin] = fin.split(":").map(Number);
 
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
   const out = [];
+
   for (let d = 0; d < dias; d++) {
-    const fecha = new Date(hoy);
-    fecha.setDate(hoy.getDate() + d);
+    const fecha = new Date(hoy); fecha.setDate(hoy.getDate() + d);
 
     const horas = [];
-    const t0 = new Date(fecha);
-    t0.setHours(hIni, mIni, 0, 0);
-
-    const t1 = new Date(fecha);
-    t1.setHours(hFin, mFin, 0, 0);
+    const t0 = new Date(fecha); t0.setHours(hIni, mIni, 0, 0);
+    const t1 = new Date(fecha); t1.setHours(hFin, mFin, 0, 0);
 
     const t = new Date(t0);
     while (t <= t1) {
@@ -53,8 +47,11 @@ export function generarDisponibilidad({
     const yyyy = fecha.getFullYear();
     const mm = pad(fecha.getMonth() + 1);
     const dd = pad(fecha.getDate());
-
     out.push({ fecha: `${yyyy}-${mm}-${dd}`, horas });
   }
   return out;
 }
+
+// === Alias por compatibilidad con código anterior ===
+export const medicos = listarDoctores;
+
